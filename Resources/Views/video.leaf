@@ -11,6 +11,8 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta property="og:image" content="#(video.image)">
 <meta name="twitter:site" content="@swifttubeco">
+
+<link rel="canonical" href="http://www.swifttube.co/video/#(video.shortUrl)">
 }
 
 #set("content") {
@@ -28,10 +30,18 @@
                         <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
                     </div>
                 </div>
+                #if(video.external) {
+                <div class="video-detail-external">
+                    The source of the video doesn't allow us to embed the video in here.
+                    </br>
+                    </br>
+                    <a href="#(video.url)" target="_blank">Click here to watch the video on their website</a>
+                </div>
+                } else {
                 <div class="embed-responsive embed-responsive-16by9">
                     <iframe class="embed-responsive-item" src="#(video.url)" allowfullscreen></iframe>
                 </div>
-
+                }
                 <div class="video-detail-card-footer">
                     <div class="user-info">
                         #for(speaker in video.speakersArray) {
@@ -49,11 +59,21 @@
                     <div class="conference-info">
                         #for(conference in video.conferencesArray) {
                         <a href="/conference/#(conference.shortname)">
-                            <div class="card-subtitle" style="margin-left: 20px;">
+                            <div class="card-subtitle" style="margin-left: 10px;">
                                 #(conference.fullname)
                             </div>
                         </a>
                         }
+                        #for(event in video.eventsArray) {
+                        <a href="/event/#(event.shortname)">
+                            <div class="card-subtitle text-grey-600" style="margin-left: 10px;">
+                                #(event.fullname)
+                            </div>
+                        </a>
+                        }
+                        <span class="date text-grey-500" style="margin-left: 10px;">
+                            #date(video.videoDate, "dd MMM yyyy")
+                        </span>
                     </div>
                 </div>
             </div>

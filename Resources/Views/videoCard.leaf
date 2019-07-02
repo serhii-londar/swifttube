@@ -1,0 +1,53 @@
+<div class="video-card">
+    <div class="card-cover">
+        <div class="card-cover-aspect">
+            #if(video.image) {
+            <a href="/video/#(video.shortUrl)">
+                <img src="#(video.image)" alt="#(video.title)">
+                    </a>
+            } else {
+            <div class="card-cover-no-image">
+                <a href="/video/#(video.shortUrl)">
+                    <p>#(video.title)</p>
+                </a>
+            </div>
+            }
+        </div>
+    </div>
+    <div class="card-content">
+        <a href="/video/#(video.shortUrl)">
+            <h3 class="card-title">#(video.title)</h3>
+        </a>
+        
+        <div class="conference-names">
+            #for(event in video.eventsArray) {
+            <a href="/event/#(event.shortname)">
+                <div class="card-subtitle">
+                    #(event.fullname)
+                    <span class="date text-grey-500">
+                     #date(video.videoDate, "dd MMM yyyy")
+                     </span>
+                </div>
+            </a>
+            }
+        </div>
+        
+        <div class="user-list">
+            #for(speaker in video.speakersArray) {
+            <a href="/speaker/#(speaker.shortname)">
+                <div class="user-info">
+                    <div class="avatar">
+                        #if(speaker.image != "") {
+                        <img src="#(speaker.image)" alt="#(speaker.fullname)">
+                        } else {
+                        <img src="/img/swifttube-default.jpg" alt="#(speaker.fullname)">
+                        }
+                    </div>
+                    
+                    <div class="card-text">#(speaker.fullname)</div>
+                </div>
+            </a>
+            }
+        </div>
+    </div>
+</div>

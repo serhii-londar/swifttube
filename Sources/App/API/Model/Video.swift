@@ -1,10 +1,3 @@
-//
-//  Video.swift
-//  App
-//
-//  Created by Ahmet Yalcinkaya on 11/12/2018.
-//
-
 import Foundation
 import MongoKitten
 import Vapor
@@ -17,6 +10,10 @@ final class Video: Content, Codable {
     var tags: Document?
     var conferencesArray: [Document]?
     var speakersArray: [Document]?
+    var eventsArray: [Document]?
+    var external: Bool?
+    var createdAt: Date?
+    var videoDate: Date?
 
     lazy var twitterText: String = {
         var text = "I just watched this great video \(title ?? "") by"
@@ -49,6 +46,5 @@ final class Video: Content, Codable {
     }()
     
     init() { }
-
     
 }

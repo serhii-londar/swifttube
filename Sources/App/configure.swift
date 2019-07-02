@@ -1,6 +1,9 @@
 import Leaf
 import Vapor
 import Paginator
+import MongoKitten
+
+extension MongoKitten.Database: Service {}
 
 /// Called before your application initializes.
 public func configure(_ config: inout Config, _ env: inout Environment, _ services: inout Services) throws {
@@ -9,16 +12,20 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     try services.register(LeafProvider())
 
     services.register(OffsetPaginatorConfig(
-        perPage: 17,
+        perPage: 18,
         defaultPage: 1
     ))
     
     services.register { _ -> LeafTagConfig in
         var tags = LeafTagConfig.default()
-        tags.use([
-            "offsetPaginator": OffsetPaginatorTag(templatePath: "Paginator/offsetpaginator")
-            ])
+        tags.use(OffsetPaginatorTag(templatePath: "Paginator/offsetpaginator"), as: "offsetPaginator")
         return tags
+    }
+    
+    let connectionURI = Environment.get("DB_URL")!
+    
+    services.register(MongoKitten.Database.self) { container -> MongoKitten.Database in
+        return try MongoKitten.Database.lazyConnect(connectionURI, on: container.eventLoop)
     }
     
     /// Register routes to the router
